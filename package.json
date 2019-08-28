@@ -1,0 +1,30 @@
+{
+  "name": "wow-stocks",
+  "version": "1.0.0",
+  "description": "实时获取所有 A 股现在 + 过去的行情数据",
+  "keywords": [
+    "stock",
+    "quotation",
+    "share",
+    "trade",
+    "quantization"
+  ],
+  "scripts": {
+    "start": "ts-node-dev src/index.ts"
+  },
+  "dependencies": {
+    "cli-progress": "^3.0.0",
+    "fecha": "^3.0.3",
+    "python-shell": "^1.0.8"
+  },
+  "devDependencies": {
+    "@types/cli-progress": "^1.8.1",
+    "@types/node": "^11.13.8",
+    "prettier": "^1.17.0",
+    "ts-node-dev": "^1.0.0-pre.42",
+    "tslint": "^5.16.0",
+    "tslint-config-prettier": "^1.18.0",
+    "tslint-plugin-prettier": "^2.0.1",
+    "typescript": "3.5.3"
+  }
+}

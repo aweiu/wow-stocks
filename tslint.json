@@ -1,0 +1,18 @@
+{
+  "extends": ["tslint:latest", "tslint-config-prettier"],
+  "rulesDirectory": ["tslint-plugin-prettier"],
+
+  "rules": {
+    "prettier": true,
+    "no-console": false,
+    "no-shadowed-variable": false,
+    "object-literal-sort-keys": false,
+    "interface-name": false,
+    "member-access": false,
+    "curly": false,
+    "ordered-imports": false,
+    "no-submodule-imports": false,
+    "no-implicit-dependencies": false,
+    "variable-name": [false, "allow-pascal-case"]
+  }
+}
