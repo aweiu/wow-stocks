@@ -1,5 +1,5 @@
 import * as cliProgress from 'cli-progress'
-import { Option } from '../types'
+import { Option, UpdateType } from '../types'
 
 export default class Progress {
   private total = 0
@@ -10,12 +10,13 @@ export default class Progress {
   constructor(print: boolean, callback?: Option['callback']) {
     if (print) {
       this.progress = new cliProgress.Bar({
-        format: '{prefix} [{bar}] {percentage}% {eta} 秒 {suffix}',
+        format:
+          '{prefix} [{bar}] {percentage}% {eta}秒 {value}/{total} {suffix}',
         barCompleteChar: '=',
         barIncompleteChar: '-',
         stopOnComplete: true,
       })
-      this.progress.start(100, 0, { prefix: '数据准备中', suffix: '' })
+      this.progress.start(Infinity, 0, { prefix: '数据准备中', suffix: '' })
     }
     this.callback = callback
   }
@@ -24,14 +25,15 @@ export default class Progress {
     return this.value >= this.total
   }
 
-  tick(code: string, type: string) {
+  tick(code: string, type: UpdateType) {
     this.value++
     if (this.progress) {
+      const typeStr = ['Cache', 'Incremental', 'Full']
       this.progress.increment(1, {
         prefix:
           // @ts-ignore
           this.isCompleted ? '更新完毕' : '数据更新中',
-        suffix: `${code}(${type})`,
+        suffix: `${code}(${typeStr[type]})`,
       })
     }
     if (this.callback) {
@@ -39,6 +41,7 @@ export default class Progress {
         value: this.value,
         total: this.total,
         code,
+        type,
       })
     }
   }

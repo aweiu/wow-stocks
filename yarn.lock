@@ -586,6 +586,11 @@ rimraf@^2.6.1:
   resolved "https://registry.yarnpkg.com/semver/-/semver-5.7.1.tgz#a954f931aeba508d307bbf069eff0c01c96116f7"
   integrity sha512-sauaDf/PZdVgrLTNYHRtpXa1iRiKcaebiKQ1BJdpQlWH2lCvexQdX55snPFyK7QzpudqbCI0qXFfOasHdyNDGQ==
 
+set-promise-interval@^1.0.5:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/set-promise-interval/-/set-promise-interval-1.0.5.tgz#79f63e09b44e36be501a1cd740154519004b07e2"
+  integrity sha512-gDVovP5YaOWkOfaja/ojwKpf6CqIELYuwuVaE16mUTNIjzVf7aGDTRrlzzsUnNgtqtx5aGMGrATjnnV/I7GSRA==
+
 shellwords@^0.1.1:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/shellwords/-/shellwords-0.1.1.tgz#d6b9181c1a48d397324c84871efbcfc73fc0654b"
