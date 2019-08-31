@@ -119,6 +119,10 @@ export async function update({
     const save = () => {
       if (updatedCodes.size > 0) localStorage.setItem('histories', histories)
     }
+    const onSigint = () => {
+      save()
+      process.exit()
+    }
 
     progress = new Progress(progressBar, (info) => {
       if (info.type !== UpdateType.Cache) updatedCodes.add(info.code)
@@ -128,7 +132,7 @@ export async function update({
     const realTimeQuotation = await getRealTimeQuotation()
     const updateCodes = Object.keys(realTimeQuotation)
     progress.setTotal(updateCodes.length)
-    process.addListener('SIGINT', save)
+    process.addListener('SIGINT', onSigint)
     try {
       await incrementalUpdate(realTimeQuotation, length) // 先尝试增量更新
       await fullUpdate(realTimeQuotation, length) // 全量补充
@@ -140,9 +144,10 @@ export async function update({
       save()
       throw e
     } finally {
-      process.removeListener('SIGINT', save)
+      process.removeListener('SIGINT', onSigint)
     }
   }
+
   // 可以基于行情搞事情了！
   const get = async () => {
     const data = []
