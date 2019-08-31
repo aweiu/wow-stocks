@@ -1,29 +1,7 @@
-export enum TradeStatus {
-  Suspended = '0',
-  Normal = '1',
-}
-
 export enum UpdateType {
   Cache,
   Incremental,
   Full,
-}
-
-export interface Quotation {
-  date: string
-  code: string
-  open: number
-  high: number
-  low: number
-  close: number
-  volume: number
-  amount: number
-  turnover: number
-  suspended: boolean
-}
-
-export interface RealTimeQuotation {
-  [code: string]: Quotation
 }
 
 export interface Histories {
@@ -42,6 +20,7 @@ export interface Histories {
 
 export interface Option {
   length: number
+  forceSkip?: boolean
   progressBar?: boolean
   codes?: string[]
   callback?: (info: {

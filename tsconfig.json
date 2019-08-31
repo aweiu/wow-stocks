@@ -4,8 +4,8 @@
     "moduleResolution": "node",
     "module": "commonjs",
     "target": "es2017",
-    "outDir": "./dist",
-    "experimentalDecorators": true
+    "declaration": true,
+    "outDir": "./dist"
   },
   "include": ["src"]
 }

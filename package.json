@@ -1,7 +1,7 @@
 {
   "name": "wow-stocks",
-  "version": "1.0.0",
-  "description": "实时获取所有 A 股现在 + 过去的行情数据，可基于它来做量化交易的行情服务",
+  "version": "0.0.8",
+  "description": "实时获取所有 A 股现在 + 过去的行情数据，可基于它来做量化交易的行情服务，也可以用来实时选股",
   "keywords": [
     "stock",
     "quotation",
@@ -10,13 +10,21 @@
     "quantization"
   ],
   "scripts": {
-    "start": "ts-node-dev src/index.ts"
+    "test": "ts-node-dev src/test.ts"
+  },
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
+  "author": "aweiu",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aweiu/wow-stocks"
   },
   "dependencies": {
     "cli-progress": "^3.0.0",
     "fecha": "^3.0.3",
-    "python-shell": "^1.0.8",
-    "set-promise-interval": "^1.0.5"
+    "set-promise-interval": "^1.0.6",
+    "wow-stock-quotation": "^0.1.9"
   },
   "devDependencies": {
     "@types/cli-progress": "^1.8.1",
@@ -26,6 +34,7 @@
     "tslint": "^5.16.0",
     "tslint-config-prettier": "^1.18.0",
     "tslint-plugin-prettier": "^2.0.1",
-    "typescript": "3.5.3"
+    "typescript": "3.5.3",
+    "wow-stock-calculator": "^0.1.8"
   }
 }

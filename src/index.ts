@@ -1,20 +1,15 @@
 import setPromiseInterval, { clearPromiseInterval } from 'set-promise-interval'
-import LocalStorage from './libs/local-storage'
-import Progress from './libs/progress'
 import {
   getHistory,
   getRealTimeAll,
   getRealTimeCodes,
   getTradeDates,
   updateAllCodes,
-} from './libs/quotation'
-import {
-  Histories,
-  Option,
-  Quotation,
-  RealTimeQuotation,
-  UpdateType,
-} from './types'
+} from 'wow-stock-quotation'
+import { Quotation, RealTimeQuotation } from 'wow-stock-quotation/dist/types'
+import LocalStorage from './libs/local-storage'
+import Progress from './libs/progress'
+import { Histories, Option, UpdateType } from './types'
 // tslint:disable-next-line:no-var-requires
 const fecha = require('fecha')
 
@@ -111,38 +106,42 @@ function fullUpdate(realTimeQuotation: RealTimeQuotation, length: number) {
 
 export async function update({
   length,
+  forceSkip,
   progressBar = true,
   callback,
   codes,
 }: Option) {
-  const updatedCodes = new Set()
-  const save = () => {
-    if (updatedCodes.size > 0) localStorage.setItem('histories', histories)
-  }
   const getRealTimeQuotation = () =>
     codes ? getRealTimeCodes(codes) : getRealTimeAll()
 
-  progress = new Progress(progressBar, (info) => {
-    if (info.type !== UpdateType.Cache) updatedCodes.add(info.code)
-    if (callback) callback(info)
-  })
-  if (!codes) await updateAllCodes()
-  const realTimeQuotation = await getRealTimeQuotation()
-  const updateCodes = Object.keys(realTimeQuotation)
-  progress.setTotal(updateCodes.length)
-  process.addListener('SIGINT', save)
-  try {
-    await incrementalUpdate(realTimeQuotation, length) // 先尝试增量更新
-    await fullUpdate(realTimeQuotation, length) // 全量补充
-    save()
-    // 剩下的都是未更新的股票，统一做进度提示
-    const cacheCodes = updateCodes.filter((code) => !updatedCodes.has(code))
-    for (const code of cacheCodes) progress.tick(code, UpdateType.Cache)
-  } catch (e) {
-    save()
-    throw e
-  } finally {
-    process.removeListener('SIGINT', save)
+  if (!forceSkip) {
+    const updatedCodes = new Set()
+    const save = () => {
+      if (updatedCodes.size > 0) localStorage.setItem('histories', histories)
+    }
+
+    progress = new Progress(progressBar, (info) => {
+      if (info.type !== UpdateType.Cache) updatedCodes.add(info.code)
+      if (callback) callback(info)
+    })
+    if (!codes) await updateAllCodes()
+    const realTimeQuotation = await getRealTimeQuotation()
+    const updateCodes = Object.keys(realTimeQuotation)
+    progress.setTotal(updateCodes.length)
+    process.addListener('SIGINT', save)
+    try {
+      await incrementalUpdate(realTimeQuotation, length) // 先尝试增量更新
+      await fullUpdate(realTimeQuotation, length) // 全量补充
+      save()
+      // 剩下的都是未更新的股票，统一做进度提示
+      const cacheCodes = updateCodes.filter((code) => !updatedCodes.has(code))
+      for (const code of cacheCodes) progress.tick(code, UpdateType.Cache)
+    } catch (e) {
+      save()
+      throw e
+    } finally {
+      process.removeListener('SIGINT', save)
+    }
   }
   // 可以基于行情搞事情了！
   const get = async () => {
@@ -150,6 +149,7 @@ export async function update({
     const realTimeQuotation = await getRealTimeQuotation()
     for (const code of Object.keys(realTimeQuotation)) {
       const now = realTimeQuotation[code]
+      if (now.suspended) continue
       const history = histories[code]
       for (const field of FIELDS) {
         history[field][history[field].length - 1] = now[field]
