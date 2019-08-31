@@ -167,7 +167,7 @@ export async function update({
   const watch = (callback: (data: PromiseReturnType<typeof get>) => any) => {
     const id = setPromiseInterval(async () => {
       try {
-        callback(await get())
+        await callback(await get())
       } catch (e) {
         // 忽略
       }

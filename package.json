@@ -1,6 +1,6 @@
 {
   "name": "wow-stocks",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "实时获取所有 A 股现在 + 过去的行情数据，可基于它来做量化交易的行情服务，也可以用来实时选股",
   "keywords": [
     "stock",
