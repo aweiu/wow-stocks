@@ -1,4 +1,4 @@
 node_modules
 .idea
 dist
-db.json
+wow-stocks-db.json

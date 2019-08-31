@@ -20,7 +20,7 @@ type PromiseReturnType<T extends () => any> = ReturnType<T> extends Promise<
   : ReturnType<T>
 
 let progress!: Progress
-const localStorage = new LocalStorage('./db.json')
+const localStorage = new LocalStorage('./wow-stocks-db.json')
 const histories = localStorage.getItem<Histories>('histories') || {}
 const FIELDS: Array<keyof Quotation & keyof Histories['']> = [
   'open',
