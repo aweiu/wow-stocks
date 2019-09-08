@@ -23,7 +23,7 @@
   "dependencies": {
     "cli-progress": "^3.0.0",
     "fecha": "^3.0.3",
-    "set-promise-interval": "^1.0.6",
+    "set-promise-interval": "^1.0.8",
     "wow-stock-quotation": "^0.1.9"
   },
   "devDependencies": {
